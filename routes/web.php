@@ -13,3 +13,5 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('/', [IncidentReportController::class, 'create'])->name('home');
+Route::post('/incident-report', [IncidentReportController::class, 'store'])->name('incident-report.store');
