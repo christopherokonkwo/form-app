@@ -25,9 +25,10 @@ class StoreIncidentReportRequest extends FormRequest
     {
         return [
             'name' => 'required|string',
-            'department' => 'required|string',
+            'machine_number' => 'required|string',
             'phone' => 'required|string',
-            'incident_details' => 'required|string',
+            'incident_detail_option' => 'nullable|string',
+            'incident_details' => 'nullable|string',
             'incident_causes' => 'required|string',
             'recommendations' => 'required|string',
             'additional_notes' => 'nullable|string',
@@ -37,6 +38,8 @@ class StoreIncidentReportRequest extends FormRequest
             'police_notified' => 'nullable|string',
             'recieved_by' => 'nullable|string',
             'recieved_date' => 'nullable|string',
+            'reported_by'=> 'required|string',
+            'solved_by'=> 'required|string',
         ];
     }
 }

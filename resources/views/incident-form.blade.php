@@ -35,8 +35,11 @@
 <body class="antialiased">
     <div class="p-2"></div>
     <div class="p-3 text-center green-bg">
-        <h4>INCIDENT REPORT</h4>
+        <img src="{{asset('logo.jpeg')}}" class="img-fluid">
     </div>
+    {{-- <div class="p-3 text-center green-bg">
+        <h4>INCIDENT REPORT</h4>
+    </div> --}}
     <div class="container mt-3 p-3">
         @if(session('msg'))
         <div class="row offset-md-2 col-md-8 mb-3">
@@ -46,21 +49,33 @@
             </div>
         </div>
         @endif
+
+        @if($errors->all())
+        <div class="row offset-md-2 col-md-8 mb-3">
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                @foreach ($errors->all() as $message)
+                {{$message}} </br>
+                @endforeach
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        </div>
+        @endif
+
         <h4 class="text-center">EMPLOYEE DETAILS</h4>
         <form class="row" method="post" action="{{route('incident-report.store')}}">
             @csrf
             <div class="offset-md-2 col-md-8 mb-3">
-                <label for="exampleFormControlInput1" class="form-label">Name</label>
-                <input type="text" class="form-control" id="exampleFormControlInput1" name="name">
+                <label for="name" class="form-label">NAME</label>
+                <input type="text" class="form-control" id="name" name="name">
             </div>
             <div class="offset-md-2 col-md-8 mb-3">
                 <div class="row">
                     <div class="col-md-6 mb-3">
-                        <label for="exampleFormControlInput1" class="form-label">Department</label>
-                        <input type="text" class="form-control" id="exampleFormControlInput1" name="department">
+                        <label for="machineName" class="form-label">MACHINE NUMBER</label>
+                        <input type="text" class="form-control" id="machineName" name="machine_number">
                     </div>
                     <div class="col-md-6 mb-3">
-                        <label for="phone" class="form-label">Phone Number</label>
+                        <label for="phone" class="form-label">PHONE NUMBER</label>
                         <input type="text" class="form-control" id="phone" name="phone">
                     </div>
                 </div>
@@ -92,20 +107,49 @@
 
                     <div class="col-12">
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="police_notified" id="inlineRadio1" value="1">
-                            <label class="form-check-label" for="inlineRadio1">YES</label>
+                            <input class="form-check-input" type="radio" name="police_notified" id="policeNotified" value="1">
+                            <label class="form-check-label" for="policeNotified">YES</label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="police_notified" id="inlineRadio2" value="0">
-                            <label class="form-check-label" for="inlineRadio2">NO</label>
+                            <input class="form-check-input" type="radio" name="police_notified" id="policeNotified" value="0">
+                            <label class="form-check-label" for="policeNotified">NO</label>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-9 mb-3">
                     <label for="exampleFormControlTextarea1" class="form-label">INCIDENT DETAILS</label>
-                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="7" name="incident_details"></textarea>
-                    <p class="tiny-text">How the incident occurred, factors leading to it, what took place. </br>
-                        Be as specific as possible</p>
+                    <select onchange="shouldShowOtherField(this);" class="form-select" aria-label="Incident options" name="incident_detail_option">
+                        <option selected>Open this select menu</option>
+                        <option value="buttons">BUTTONS</option>
+                        <option value="chairs">CHAIRS</option>
+                        <option value="door-keys">DOOR KEYS</option>
+                        <option value="electronic-keys">ELECTRONIC KEYS</option>
+                        <option value="hdd">HDD</option>
+                        <option value="hdmi">HDMI</option>
+                        <option value="jp-box">JP BOX</option>
+                        <option value="jp-power">JP POWER</option>
+                        <option value="led-light">LED LIGHT</option>
+                        <option value="monitor">MONITOR</option>
+                        <option value="motherboard">MOTHERBOARD</option>
+                        <option value="network-cable">NETWORK CABLE</option>
+                        <option value="nv9">NV9</option>
+                        <option value="nv9-wire">NV9 WIRE</option>
+                        <option value="power-pack">POWER PACK</option>
+                        <option value="router">ROUTER</option>
+                        <option value="smio-board">SMIO BOARD/CABLE</option>
+                        <option value="speakers">SPEAKERS</option>
+                        <option value="switch">SWITCH</option>
+                        <option value="table">TABLE</option>
+                        <option value="tourch-panel">TOURCH PANEL</option>
+                        <option value="tv">TV</option>
+                        <option value="ups">UPS</option>
+                        <option value="others">OTHERS(PLEASE SPECIFY)</option>
+                    </select>
+                    <div id="others" style="display:none">
+                        <textarea class="form-control" rows="7" name="incident_details"></textarea>
+                        <p class="tiny-text">How the incident occurred, factors leading to it, what took place. </br>
+                            Be as specific as possible</p>
+                    </div>
                 </div>
             </div>
 
@@ -116,7 +160,7 @@
                         <textarea class="form-control" id="exampleFormControlTextarea1" rows="2" name="incident_causes"></textarea>
                     </div>
                     <div class="col-md-6 mb-3">
-                        <label for="exampleFormControlTextarea1" class="form-label">FOLLOW UP RECOMENDATIONS</label>
+                        <label for="exampleFormControlTextarea1" class="form-label">INCIDENT STATUS</label>
                         <textarea class="form-control" id="exampleFormControlTextarea1" rows="2" name="recommendations"></textarea>
                     </div>
                 </div>
@@ -133,12 +177,24 @@
                 <div class="offset-md-2 col-md-8 mb-3">
                     <div class="row">
                         <div class="col-md-9 mb-3">
-                            <label for="exampleFormControlInput1" class="form-label">REPORT RECIEVED BY</label>
-                            <input type="text" class="form-control" id="exampleFormControlInput1" name="recieved_by">
+                            <label for="recievedBy" class="form-label">REPORT RECIEVED BY</label>
+                            <input type="text" class="form-control" id="recievedBy" name="recieved_by">
                         </div>
                         <div class="col-md-3 mb-3">
-                            <label for="exampleFormControlInput1" class="form-label">DATE</label>
-                            <input type="date" class="form-control" id="exampleFormControlInput1" name="recieved_date">
+                            <label for="recievedDate" class="form-label">DATE</label>
+                            <input type="date" class="form-control" id="recievedDate" name="recieved_date">
+                        </div>
+                    </div>
+                </div>
+                <div class="offset-md-2 col-md-8 mb-3">
+                    <div class="row">
+                        <div class="col-md-9 mb-3">
+                            <label for="reportedBy" class="form-label">PROBLEMS REPORTED BY</label>
+                            <input type="text" class="form-control" id="reportedBy" name="reported_by">
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label for="solvedBy" class="form-label">PROBLEMS SOLVED BY</label>
+                            <input type="text" class="form-control" id="solvedBy" name="solved_by">
                         </div>
                     </div>
                 </div>
@@ -155,5 +211,16 @@
         <h4>MAXWELL LTD</h4>
         <p>Employee Incident Report</p>
     </div>
+
+    <script>
+        function shouldShowOtherField(that) {
+            if (that.value == "others") {
+                document.getElementById("others").style.display = "block";
+            } else {
+                document.getElementById("others").style.display = "none";
+            }
+        }
+
+    </script>
 </body>
 </html>
