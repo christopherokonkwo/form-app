@@ -61,7 +61,7 @@
         </div>
         @endif
 
-        <h4 class="text-center">EMPLOYEE DETAILS</h4>
+        <h4 class="text-center">CLIENT DETAILS</h4>
         <form class="row" method="post" action="{{route('incident-report.store')}}">
             @csrf
             <div class="offset-md-2 col-md-8 mb-3">
