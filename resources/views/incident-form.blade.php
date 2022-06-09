@@ -207,10 +207,13 @@
         </form>
 
     </div>
-    <div class="p-3 text-center green-bg">
+    <div class="p-3 text-center ">
+        <img src="{{asset('logo.jpeg')}}" class="img-fluid">
+    </div>
+    {{-- <div class="p-3 text-center green-bg">
         <h4>MAXWELL LTD</h4>
         <p>Employee Incident Report</p>
-    </div>
+    </div> --}}
 
     <script>
         function shouldShowOtherField(that) {
