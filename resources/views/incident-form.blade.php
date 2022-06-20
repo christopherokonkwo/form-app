@@ -37,9 +37,12 @@
     <div class="p-3 text-center ">
         <img src="{{asset('logo.jpeg')}}" class="img-fluid">
     </div>
-    {{-- <div class="p-3 text-center green-bg">
-        <h4>INCIDENT REPORT</h4>
-    </div> --}}
+    @guest
+    <div class="p-3">
+        <a href="{{route('login')}}" target="_balnk">Login</a>
+        <a href="{{route('register')}}" target="_balnk">Register</a>
+    </div>
+    @endguest
     <div class="container mt-3 p-3">
         @if(session('msg'))
         <div class="row offset-md-2 col-md-8 mb-3">
