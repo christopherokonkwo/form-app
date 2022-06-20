@@ -2,43 +2,179 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use SoftDeletes;
+    use HasFactory;
 
     /**
-     * The attributes that are mass assignable.
+     * Role identifier for a Contributor.
      *
-     * @var array<int, string>
+     * @const int
      */
-    protected $fillable = [
-        'name',
-        'email',
-        'password',
-    ];
+    public const CONTRIBUTOR = 1;
 
     /**
-     * The attributes that should be hidden for serialization.
+     * Role identifier for an Editor.
      *
-     * @var array<int, string>
+     * @const int
+     */
+    public const EDITOR = 2;
+
+    /**
+     * Role identifier for an Admin.
+     *
+     * @const int
+     */
+    public const ADMIN = 3;
+
+    /**
+     * The attributes that aren't mass assignable.
+     *
+     * @var array
+     */
+    protected $guarded = [];
+
+    /**
+     * The primary key for the model.
+     *
+     * @var string
+     */
+    protected $primaryKey = 'id';
+
+    /**
+     * The "type" of the auto-incrementing ID.
+     *
+     * @var string
+     */
+    protected $keyType = 'string';
+
+    /**
+     * Indicates if the IDs are auto-incrementing.
+     *
+     * @var bool
+     */
+    public $incrementing = false;
+
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
      */
     protected $hidden = [
-        'password',
-        'remember_token',
+        'password', 'remember_token',
     ];
 
     /**
-     * The attributes that should be cast.
+     * The attributes that should be casted.
      *
-     * @var array<string, string>
+     * @var array
      */
     protected $casts = [
-        'email_verified_at' => 'datetime',
+        'digest' => 'boolean',
+        'dark_mode' => 'boolean',
+        'role' => 'int',
     ];
+
+    /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
+    protected $appends = [
+        'default_avatar',
+        'default_locale',
+    ];
+
+    /**
+     * The number of models to return for pagination.
+     *
+     * @var int
+     */
+    protected $perPage = 10;
+
+    /**
+     * Get the posts relationship.
+     *
+     * @return HasMany
+     */
+    public function posts(): HasMany
+    {
+        return $this->hasMany(Post::class);
+    }
+
+    /**
+     * Get the tags relationship.
+     *
+     * @return HasMany
+     */
+    public function tags(): HasMany
+    {
+        return $this->hasMany(Tag::class);
+    }
+
+    /**
+     * Get the topics relationship.
+     *
+     * @return HasMany
+     */
+    public function topics(): HasMany
+    {
+        return $this->hasMany(Topic::class);
+    }
+
+    /**
+     * Check to see if the user is a Contributor.
+     *
+     * @return bool
+     */
+    public function getIsContributorAttribute(): bool
+    {
+        return $this->role === self::CONTRIBUTOR;
+    }
+
+    /**
+     * Check to see if the user is an Editor.
+     *
+     * @return bool
+     */
+    public function getIsEditorAttribute(): bool
+    {
+        return $this->role === self::EDITOR;
+    }
+
+    /**
+     * Check to see if the user is an Admin.
+     *
+     * @return bool
+     */
+    public function getIsAdminAttribute(): bool
+    {
+        return $this->role === self::ADMIN;
+    }
+
+    /**
+     * Return a default user avatar.
+     *
+     * @return string
+     */
+    public function getDefaultAvatarAttribute(): string
+    {
+        return gravatar($this->email ?? '');
+    }
+
+    /**
+     * Return a default user locale.
+     *
+     * @return string
+     */
+    public function getDefaultLocaleAttribute(): string
+    {
+        return config('app.locale');
+    }
 }

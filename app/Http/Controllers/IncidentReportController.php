@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreIncidentReportRequest;
 use App\Http\Requests\UpdateIncidentReportRequest;
 use App\Models\IncidentReport;
+use Ramsey\Uuid\Uuid;
 
 class IncidentReportController extends Controller
 {
@@ -39,7 +40,9 @@ class IncidentReportController extends Controller
         // dd($request);
         $data = $request->validated();
 
-        $report = IncidentReport::create($data);
+        $report = new IncidentReport(['id' => Uuid::uuid4()->toString()]);
+        $report->fill($data);
+        $report->save();
 
         return redirect()->route('home')->with('msg', 'Report submitted successfully!');
     }

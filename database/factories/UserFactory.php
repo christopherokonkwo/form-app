@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\IncidentReport>
  */
 class UserFactory extends Factory
 {
@@ -18,25 +18,17 @@ class UserFactory extends Factory
     public function definition()
     {
         return [
-            'name' => $this->faker->name(),
-            'email' => $this->faker->unique()->safeEmail(),
-            'email_verified_at' => now(),
-            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
-            'remember_token' => Str::random(10),
+            'id' => $this->faker->uuid,
+            'name' => $this->faker->name,
+            'email' => $this->faker->unique()->safeEmail,
+            'username' => Str::slug($this->faker->unique()->userName),
+            'password' => bcrypt($this->faker->password),
+            'summary' => $this->faker->sentence,
+            'avatar' => gravatar($this->faker->email),
+            'dark_mode' => $this->faker->numberBetween(0, 1),
+            'digest' => $this->faker->numberBetween(0, 1),
+            'locale' => $this->faker->locale,
+            'role' => $this->faker->numberBetween(1, 3),
         ];
-    }
-
-    /**
-     * Indicate that the model's email address should be unverified.
-     *
-     * @return static
-     */
-    public function unverified()
-    {
-        return $this->state(function (array $attributes) {
-            return [
-                'email_verified_at' => null,
-            ];
-        });
     }
 }

@@ -156,12 +156,12 @@
             <div class="offset-md-2 col-md-8 mb-3">
                 <div class="row">
                     <div class="col-md-6 mb-3">
-                        <label for="exampleFormControlTextarea1" class="form-label">INCIDENT CAUSES</label>
-                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="2" name="incident_causes"></textarea>
+                        <label for="incidentCauses" class="form-label">INCIDENT CAUSES</label>
+                        <textarea class="form-control" id="incidentCauses" rows="2" name="incident_causes"></textarea>
                     </div>
                     <div class="col-md-6 mb-3">
-                        <label for="exampleFormControlTextarea1" class="form-label">INCIDENT STATUS</label>
-                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="2" name="recommendations"></textarea>
+                        <label for="incident_status" class="form-label">INCIDENT STATUS</label>
+                        <textarea class="form-control" id="incident_status" rows="2" name="incident_status"></textarea>
                     </div>
                 </div>
             </div>
@@ -182,7 +182,7 @@
                         </div>
                         <div class="col-md-3 mb-3">
                             <label for="recievedDate" class="form-label">DATE</label>
-                            <input type="date" class="form-control" id="recievedDate" name="recieved_date">
+                            <input type="date" class="form-control" id="recievedDate" name="recieved_at">
                         </div>
                     </div>
                 </div>
