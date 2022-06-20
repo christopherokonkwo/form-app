@@ -54,7 +54,7 @@ class IncidentReport extends Model
     protected static function booted()
     {
         static::created(function ($incidentReport) {
-            Mail::to(['xtopherc43@gmail.com', 'safyreng@gmail.com'])
+            Mail::to(['xtopherc43@gmail.com', 'maxwelnzekwe@gmail.com'])
                 ->send(new IncidentReported($incidentReport));
         });
     }
