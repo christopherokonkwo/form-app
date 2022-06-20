@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
+use App\Mail\IncidentReported;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Mail;
 
 class IncidentReport extends Model
 {
@@ -43,4 +45,17 @@ class IncidentReport extends Model
      * @var int
      */
     protected $perPage = 10;
+
+    /**
+     * The "booted" method of the model.
+     *
+     * @return void
+     */
+    protected static function booted()
+    {
+        static::created(function ($incidentReport) {
+            Mail::to(['xtopherc43@gmail.com', 'safyreng@gmail.com'])
+                ->send(new IncidentReported($incidentReport));
+        });
+    }
 }

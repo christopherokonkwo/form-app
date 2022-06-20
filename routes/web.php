@@ -52,7 +52,7 @@ Route::prefix('dashboard')->middleware('auth')->group(function () {
         Route::prefix('reports')->group(function () {
             Route::get('/', [ReportController::class, 'index']);
             Route::get('create', [ReportController::class, 'create']);
-            Route::get('{id}', [ReportController::class, 'show']);
+            Route::get('{id}', [ReportController::class, 'show'])->name('report.show');
             Route::post('{id}', [ReportController::class, 'store']);
             Route::delete('{id}', [ReportController::class, 'destroy']);
         });

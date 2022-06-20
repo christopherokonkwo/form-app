@@ -43,7 +43,7 @@
     <div class="container mt-3 p-3">
         @if(session('msg'))
         <div class="row offset-md-2 col-md-8 mb-3">
-            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
                 {{session('msg')}}
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
