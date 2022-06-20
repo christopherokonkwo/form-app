@@ -30,6 +30,7 @@ class IncidentReported extends Mailable
      */
     public function build()
     {
-        return $this->markdown('mail.incident-reported');
+        return $this->markdown('mail.incident-reported')
+            ->subject("{$this->report->name} created an incident report");
     }
 }

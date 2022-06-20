@@ -1,5 +1,5 @@
 @component('mail::message')
-# Introduction
+# Hello sir!
 
 A new report has been created with the data below.
 
