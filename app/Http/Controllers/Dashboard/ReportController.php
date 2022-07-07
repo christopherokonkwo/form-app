@@ -21,7 +21,7 @@ class ReportController extends Controller
     {
         return response()->json(
             IncidentReport::query()
-               ->select('id', 'name', 'created_at')
+            //    ->select('id', 'name', 'created_at')
                ->latest()
                ->paginate(),
             200

@@ -43,6 +43,7 @@
                     <p class="mt-2 text-secondary">
                         {{ trans.reports_are_great_for }}
                     </p>
+                    <button class="btn btn-success font-weight-bold" @click="csvExport(reports)">Export to CSV</button>
                 </div>
 
                 <div v-if="isReady" class="mt-5 card shadow-lg">
@@ -181,6 +182,19 @@ export default {
                         NProgress.done();
                     });
             }
+        },
+        csvExport(arrData) {
+            let csvContent = 'data:text/csv;charset=utf-8,';
+            csvContent += [Object.keys(arrData[0]).join(';'), ...arrData.map((item) => Object.values(item).join(';'))]
+                .join('\n')
+                .replace(/(^\[)|(\]$)/gm, '');
+
+            const data = encodeURI(csvContent);
+            const date = this.moment(new Date()).format('DD-MM-YYYY-h-m-sa');
+            const link = document.createElement('a');
+            link.setAttribute('href', data);
+            link.setAttribute('download', 'incident-reports-' + date + '.csv');
+            link.click();
         },
     },
 };
