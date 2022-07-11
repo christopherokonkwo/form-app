@@ -84,6 +84,20 @@
                             </div>
                             <div class="form-group row">
                                 <label class="font-weight-bold text-uppercase text-muted small">
+                                    {{ trans.machine_type }}
+                                </label>
+                                <input
+                                    v-model="report.machine_type"
+                                    type="text"
+                                    name="machine_type"
+                                    title="Machine Number"
+                                    class="form-control border-0"
+                                    :placeholder="trans.machine_type"
+                                    @keyup.enter="saveReport"
+                                />
+                            </div>
+                            <div class="form-group row">
+                                <label class="font-weight-bold text-uppercase text-muted small">
                                     {{ trans.phone }}
                                 </label>
                                 <input
@@ -103,71 +117,13 @@
                                         {{ trans.date }}
                                     </label>
                                     <input
-                                        v-model="report.date"
-                                        type="date"
-                                        name="date"
-                                        autocomplete="off"
+                                        v-model="moment(report.created_at).format('MMMM DD YYYY hh:mm A')"
+                                        type="text"
+                                        disabled
                                         title="date"
                                         class="form-control border-0"
                                         :placeholder="trans.date"
-                                        @keyup.enter="saveReport"
                                     />
-                                </div>
-
-                                <div class="col-5">
-                                    <label class="font-weight-bold text-uppercase text-muted small">
-                                        {{ trans.time }}
-                                    </label>
-                                    <input
-                                        v-model="report.time"
-                                        type="time"
-                                        name="time"
-                                        title="date"
-                                        class="form-control border-0"
-                                        :placeholder="trans.time"
-                                        @keyup.enter="saveReport"
-                                    />
-                                </div>
-                                <div class="col-2 pr-0">
-                                    <label class="font-weight-bold text-uppercase text-muted small">
-                                        {{ trans.police_notified }}
-                                    </label>
-                                    <div class="row">
-                                        <div class="w-50">
-                                            <label
-                                                class="font-weight-bold text-uppercase text-muted small"
-                                                for="policeVerified"
-                                            >
-                                                {{ trans.yes }}
-                                            </label>
-                                            <input
-                                                v-model="report.police_notified"
-                                                id="policeVerified"
-                                                type="radio"
-                                                name="police_notified"
-                                                title="Police Notified"
-                                                class="border-0"
-                                                value="1"
-                                            />
-                                        </div>
-                                        <div class="w-50">
-                                            <label
-                                                class="font-weight-bold text-uppercase text-muted small"
-                                                for="notPoliceVerified"
-                                            >
-                                                {{ trans.no }}
-                                            </label>
-                                            <input
-                                                v-model="report.police_notified"
-                                                id="notPoliceVerified"
-                                                type="radio"
-                                                name="police_notified"
-                                                title="Police Notified"
-                                                class="border-0"
-                                                value="0"
-                                            />
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -197,19 +153,7 @@
                                     @input="inputDetailOption"
                                 />
                             </div>
-                            <div class="form-group row">
-                                <label class="font-weight-bold text-uppercase text-muted small">
-                                    {{ trans.incident_causes }}
-                                </label>
-                                <textarea
-                                    v-model="report.incident_causes"
-                                    type="text"
-                                    name="incident_causes"
-                                    title="Causes"
-                                    class="form-control border-0"
-                                    :placeholder="trans.incident_causes"
-                                ></textarea>
-                            </div>
+
                             <div class="form-group row">
                                 <label class="font-weight-bold text-uppercase text-muted small">
                                     {{ trans.notes }}
@@ -221,19 +165,6 @@
                                     title="Additional Notes"
                                     class="form-control border-0"
                                     :placeholder="trans.additional_notes"
-                                ></textarea>
-                            </div>
-                            <div class="form-group row">
-                                <label class="font-weight-bold text-uppercase text-muted small">
-                                    {{ trans.status }}
-                                </label>
-                                <textarea
-                                    v-model="report.incident_status"
-                                    type="text"
-                                    name="incident_status"
-                                    title="Incident Status"
-                                    class="form-control border-0"
-                                    placeholder="incident status"
                                 ></textarea>
                             </div>
 

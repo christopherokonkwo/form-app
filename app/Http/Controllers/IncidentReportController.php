@@ -10,16 +10,6 @@ use Ramsey\Uuid\Uuid;
 class IncidentReportController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
@@ -45,28 +35,6 @@ class IncidentReportController extends Controller
         $report->save();
 
         return redirect()->route('home')->with('msg', 'Report submitted successfully!');
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\IncidentReport  $incidentReport
-     * @return \Illuminate\Http\Response
-     */
-    public function show(IncidentReport $incidentReport)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\IncidentReport  $incidentReport
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(IncidentReport $incidentReport)
-    {
-        //
     }
 
     /**

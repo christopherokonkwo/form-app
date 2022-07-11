@@ -58,6 +58,7 @@ return [
     'locale' => 'Locale',
     'location' => 'Location',
     'machine_number' => 'Machine Number',
+    'machine_type' => 'Machine Type',
     'manage_user_roles' => 'Manage user roles and permissions.',
     'meta_description' => 'Meta Description',
     'meta_description_placeholder' => 'Meta description for your post',
