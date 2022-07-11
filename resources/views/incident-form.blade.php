@@ -72,78 +72,74 @@
         <form class="row" method="post" action="{{ route('incident-report.store') }}">
             @csrf
             <div class="offset-md-2 col-md-8 mb-3">
-                <div class="row">
-                    <div class="col-md-6 mb-3">
+                <div class="row mb-3">
+                    <div class="col-md-4">
                         <label for="name" class="form-label">NAME</label>
                         <input type="text" class="form-control" id="name" name="name">
                     </div>
-                    <div class="col-md-6 mb-3">
+                    <div class="col-md-4">
                         <label for="phone" class="form-label">PHONE NUMBER</label>
                         <input type="number" class="form-control" id="phone" name="phone">
+                    </div>
+                    <div class="col-md-4">
+                        <label for="location" class="form-label">LOCATION</label>
+                        <input type="text" class="form-control" id="location" name="location">
                     </div>
                 </div>
             </div>
             <div class="offset-md-2 col-md-8 mb-3">
-                <div class="row">
-                    <div class="col-md-6 mb-3">
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        <label for="machineType" class="form-label">MACHINE TYPE</label>
+                        {{-- <input type="text" class="form-control" id="machineType" name="machine_type"> --}}
+                        <select name="machine_type" class="form-select" aria-label="Machine Type">
+                            <option selected>choose</option>
+                            <option value="hoftun">Hoftun</option>
+                            <option value="energy+">Energy+</option>
+                            <option value="classic+">Classic+</option>
+                            <option value="turbo+">Turbo+</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4">
                         <label for="machineName" class="form-label">MACHINE NUMBER</label>
                         <input type="text" class="form-control" id="machineName" name="machine_number">
                     </div>
-                    <div class="col-md-6 mb-3">
-                        <label for="machineType" class="form-label">MACHINE TYPE</label>
-                        <input type="text" class="form-control" id="machineType" name="machine_type">
-                    </div>
-                </div>
-            </div>
-
-            <div class="offset-md-2 col-md-8 row mb-3">
-                <div class="col-md-3 mb-3">
-
-                    <!-- Force next columns to break to new line -->
-
-                    <div class="col-12">
-                        <label for="location" class="form-label">LOCATION</label>
-                        <input type="text" class="form-control" id="location" name="location">
-                    </div>
-
-                    <div class="w-100"></div>
-
-                </div>
-                <div class="col-md-9 mb-3">
-                    <label for="exampleFormControlTextarea1" class="form-label">INCIDENT DETAILS</label>
-                    <select onchange="shouldShowOtherField(this);" class="form-select" aria-label="Incident options"
-                        name="incident_detail_option">
-                        <option selected>Open this select menu</option>
-                        <option value="buttons">BUTTONS</option>
-                        <option value="chairs">CHAIRS</option>
-                        <option value="door-keys">DOOR KEYS</option>
-                        <option value="electronic-keys">ELECTRONIC KEYS</option>
-                        <option value="hdd">HDD</option>
-                        <option value="hdmi">HDMI</option>
-                        <option value="jp-box">JP BOX</option>
-                        <option value="jp-power">JP POWER</option>
-                        <option value="led-light">LED LIGHT</option>
-                        <option value="monitor">MONITOR</option>
-                        <option value="motherboard">MOTHERBOARD</option>
-                        <option value="network-cable">NETWORK CABLE</option>
-                        <option value="nv9">NV9</option>
-                        <option value="nv9-wire">NV9 WIRE</option>
-                        <option value="power-pack">POWER PACK</option>
-                        <option value="router">ROUTER</option>
-                        <option value="smio-board">SMIO BOARD/CABLE</option>
-                        <option value="speakers">SPEAKERS</option>
-                        <option value="switch">SWITCH</option>
-                        <option value="table">TABLE</option>
-                        <option value="tourch-panel">TOURCH PANEL</option>
-                        <option value="tv">TV</option>
-                        <option value="ups">UPS</option>
-                        <option value="others">OTHERS(PLEASE SPECIFY)</option>
-                    </select>
-                    <div id="others" style="display:none">
-                        <textarea class="form-control" rows="7" name="incident_details"></textarea>
-                        <p class="tiny-text">How the incident occurred, factors leading to it, what took place.
-                            </br>
-                            Be as specific as possible</p>
+                    <div class="col-md-4">
+                        <label for="incidentDetails" class="form-label">INCIDENT DETAILS</label>
+                        <select name="incident_detail_option" onchange="shouldShowOtherField(this);"
+                            id="incidentDetails" class="form-select" aria-label="Incident options">
+                            <option selected>Choose</option>
+                            <option value="buttons">BUTTONS</option>
+                            <option value="chairs">CHAIRS</option>
+                            <option value="door-keys">DOOR KEYS</option>
+                            <option value="electronic-keys">ELECTRONIC KEYS</option>
+                            <option value="hdd">HDD</option>
+                            <option value="hdmi">HDMI</option>
+                            <option value="jp-box">JP BOX</option>
+                            <option value="jp-power">JP POWER</option>
+                            <option value="led-light">LED LIGHT</option>
+                            <option value="monitor">MONITOR</option>
+                            <option value="motherboard">MOTHERBOARD</option>
+                            <option value="network-cable">NETWORK CABLE</option>
+                            <option value="nv9">NV9</option>
+                            <option value="nv9-wire">NV9 WIRE</option>
+                            <option value="power-pack">POWER PACK</option>
+                            <option value="router">ROUTER</option>
+                            <option value="smio-board">SMIO BOARD/CABLE</option>
+                            <option value="speakers">SPEAKERS</option>
+                            <option value="switch">SWITCH</option>
+                            <option value="table">TABLE</option>
+                            <option value="tourch-panel">TOURCH PANEL</option>
+                            <option value="tv">TV</option>
+                            <option value="ups">UPS</option>
+                            <option value="others">OTHERS(PLEASE SPECIFY)</option>
+                        </select>
+                        <div id="others" style="display:none">
+                            <textarea class="form-control" rows="7" name="incident_details"></textarea>
+                            <p class="tiny-text">How the incident occurred, factors leading to it, what took place.
+                                </br>
+                                Be as specific as possible</p>
+                        </div>
                     </div>
                 </div>
             </div>
