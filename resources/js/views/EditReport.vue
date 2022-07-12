@@ -190,11 +190,12 @@
                                         {{ trans.assigned_at }}
                                     </label>
                                     <input
-                                        v-model="moment(report.assigned_at).fromNow()"
+                                        :value="report.assigned_user ? moment(report.assigned_at).fromNow() : ''"
+                                        :placeholder="trans.recieved_at"
                                         type="text"
+                                        disabled
                                         title="Assigned Date"
                                         class="form-control border-0"
-                                        :placeholder="trans.recieved_at"
                                     />
                                 </div>
                             </div>
