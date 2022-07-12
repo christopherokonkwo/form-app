@@ -1,0 +1,2 @@
+# Ignore mail templates
+resources/views/mail/**

@@ -14,22 +14,19 @@ return new class extends Migration {
     {
         Schema::create('incident_reports', function (Blueprint $table) {
             $table->uuid('id')->primary();
+            $table->foreignUuid('user_id')->nullable()->constrained()->cascadeOnDelete();
             $table->string('name');
-            $table->string('machine_number');
             $table->string('phone');
+            $table->string('location');
+            $table->string('machine_number');
+            $table->string('machine_type');
             $table->text('incident_detail_option');
             $table->text('incident_details')->nullable();
-            $table->text('incident_causes');
-            $table->text('incident_status');
-            $table->text('additional_notes');
-            $table->string('date');
-            $table->string('location');
-            $table->string('time');
-            $table->boolean('police_notified')->default(false);
-            $table->string('recieved_by')->nullable();
-            $table->string('recieved_at')->nullable();
-            $table->string('reported_by')->nullable();
-            $table->string('solved_by')->nullable();
+            $table->text('additional_notes')->nullable();
+            $table->foreignUuid('recieved_by')->nullable()->constrained('users')->cascadeOnDelete();
+            $table->foreignUuid('reported_by')->nullable()->constrained('users')->cascadeOnDelete();
+            $table->foreignUuid('assigned_to')->nullable()->constrained('users')->cascadeOnDelete();
+            $table->timestamp('assigned_at')->nullable();
             $table->timestamps();
         });
     }

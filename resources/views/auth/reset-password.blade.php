@@ -1,48 +1,67 @@
-<x-guest-layout>
-    <x-auth-card>
-        <x-slot name="logo">
-            <a href="/">
-                <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
-            </a>
-        </x-slot>
+@extends('auth')
 
-        <!-- Validation Errors -->
-        <x-auth-validation-errors class="mb-4" :errors="$errors" />
+@section('content')
+    <main class="col-12 col-lg-5">
+        <div class="mb-5 text-center">
+            <h1>Please <span class="font-cursive">reset</span> your password</h1>
+        </div>
+        <div class="card w-auto shadow-lg">
+            <div class="card-body">
+                <form method="POST" action="{{ route('password.update') }}" class="w-100 my-auto">
+                    @csrf
 
-        <form method="POST" action="{{ route('password.update') }}">
-            @csrf
+                    <input type="hidden" name="token" value="{{ $request->route('token') }}">
 
-            <!-- Password Reset Token -->
-            <input type="hidden" name="token" value="{{ $request->route('token') }}">
+                    <div class="form-group row">
+                        <div class="col-12">
+                            <label for="email" class="font-weight-bold text-uppercase text-muted small"> Email </label>
+                            <input type="email" name="email" value="{{ old('email') }}" id="email"
+                                class="form-control @error('email') is-invalid @enderror border-0"
+                                placeholder="Email address" required autofocus />
+                            @error('email')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </div>
+                    </div>
 
-            <!-- Email Address -->
-            <div>
-                <x-label for="email" :value="__('Email')" />
+                    <div class="form-group row">
+                        <div class="col-12">
+                            <label for="password" class="font-weight-bold text-uppercase text-muted small"> Password
+                            </label>
+                            <input type="password" name="password" id="password"
+                                class="form-control @error('password') is-invalid @enderror border-0" placeholder="Password"
+                                required />
+                            @error('password')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </div>
+                    </div>
 
-                <x-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email', $request->email)" required autofocus />
+                    <div class="form-group row">
+                        <div class="col-12">
+                            <label for="password_confirmation" class="font-weight-bold text-uppercase text-muted small">
+                                Confirm password </label>
+                            <input type="password" name="password_confirmation" id="password_confirmation"
+                                class="form-control @error('password') is-invalid @enderror border-0"
+                                placeholder="Confirm password" required />
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-12">
+                            <button class="btn btn-success btn-block mt-3" type="submit">Reset password</button>
+                        </div>
+                    </div>
+                </form>
             </div>
-
-            <!-- Password -->
-            <div class="mt-4">
-                <x-label for="password" :value="__('Password')" />
-
-                <x-input id="password" class="block mt-1 w-full" type="password" name="password" required />
-            </div>
-
-            <!-- Confirm Password -->
-            <div class="mt-4">
-                <x-label for="password_confirmation" :value="__('Confirm Password')" />
-
-                <x-input id="password_confirmation" class="block mt-1 w-full"
-                                    type="password"
-                                    name="password_confirmation" required />
-            </div>
-
-            <div class="flex items-center justify-end mt-4">
-                <x-button>
-                    {{ __('Reset Password') }}
-                </x-button>
-            </div>
-        </form>
-    </x-auth-card>
-</x-guest-layout>
+        </div>
+        <div class="mt-5 text-center">
+            <p class="text-muted">Powered by <a href="https://bookrema.com"
+                    class="text-primary text-decoration-none">Bookrema</a></p>
+        </div>
+    </main>
+@endsection

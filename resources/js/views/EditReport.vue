@@ -187,13 +187,12 @@
                                 </div>
                                 <div class="col-12 col-md-4">
                                     <label class="font-weight-bold text-uppercase text-muted small">
-                                        {{ trans.recieved_at }}
+                                        {{ trans.assigned_at }}
                                     </label>
                                     <input
-                                        v-model="report.recieved_at"
-                                        type="date"
-                                        name="recieved_at"
-                                        title="Recieved Date"
+                                        v-model="moment(report.assigned_at).fromNow()"
+                                        type="text"
+                                        title="Assigned Date"
                                         class="form-control border-0"
                                         :placeholder="trans.recieved_at"
                                     />
@@ -205,25 +204,35 @@
                                         {{ trans.reported_by }}
                                     </label>
                                     <input
-                                        v-model="report.reported_by"
+                                        v-model="report.user.name"
                                         type="text"
-                                        name="reported_by"
+                                        disabled
                                         title="Reported By"
                                         class="form-control border-0"
-                                        :placeholder="trans.reported_by"
                                     />
                                 </div>
                                 <div class="col-12 col-md-4">
                                     <label class="font-weight-bold text-uppercase text-muted small">
-                                        {{ trans.solved_by }}
+                                        {{ trans.assigned_to }}
                                     </label>
+                                    <multiselect
+                                        v-if="isAdmin"
+                                        v-model="report.assigned_user"
+                                        :options="assignees"
+                                        :placeholder="trans.assigned_to"
+                                        label="name"
+                                        track-by="id"
+                                        style="cursor: pointer"
+                                        @input="saveReport"
+                                    />
                                     <input
-                                        v-model="report.solved_by"
+                                        v-else
+                                        :value="report.assigned_user ? report.assigned_user.name : ''"
+                                        disabled
                                         type="text"
-                                        name="solved_by"
-                                        title="Solved By"
+                                        title="Assigned To"
                                         class="form-control border-0"
-                                        :placeholder="trans.solved_by"
+                                        :placeholder="trans.assigned_to"
                                     />
                                 </div>
                             </div>
@@ -308,12 +317,14 @@ export default {
                 { name: 'Electronic Keys', slug: 'electronic_keys' },
             ],
             option: {},
+            assignees: [],
         };
     },
 
     computed: {
         ...mapGetters({
             trans: 'settings/trans',
+            isAdmin: 'settings/isAdmin',
         }),
 
         creatingReport() {
@@ -344,6 +355,10 @@ export default {
                 error: null,
                 shouldShow: false,
             };
+        },
+
+        reportAssignedTo() {
+            return this.report.assignedTo ? this.report.assignedTo.name : '';
         },
     },
 
@@ -380,7 +395,8 @@ export default {
             return this.request()
                 .get(`/api/reports/${this.uri}`)
                 .then(({ data }) => {
-                    this.report = data;
+                    this.report = data.report;
+                    this.assignees = data.assignees;
                     NProgress.inc();
                 })
                 .catch(() => {
@@ -398,7 +414,8 @@ export default {
             await this.request()
                 .post(`/api/reports/${this.report.id}`, this.report)
                 .then(({ data }) => {
-                    this.report = data;
+                    this.report = data.report;
+                    this.assignees = data.assignees;
                     this.$store.dispatch('search/buildIndex', true);
                     this.$toasted.show(this.trans.saved, {
                         className: 'bg-success',

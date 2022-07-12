@@ -4,10 +4,14 @@ namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Requests\Dashboard\StoreReportRequest;
 use App\Http\Requests\TagRequest;
+use App\Mail\IncidentReportAssigned;
 use App\Models\IncidentReport;
+use App\Models\User;
 use Exception;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Mail;
 use Ramsey\Uuid\Uuid;
 
 class ReportController extends Controller
@@ -22,6 +26,13 @@ class ReportController extends Controller
         return response()->json(
             IncidentReport::query()
             //    ->select('id', 'name', 'created_at')
+                ->when(request()->user()->isContributor, function (Builder $query) {
+                    return $query->where('user_id', request()->user()->id);
+                })
+                ->when(request()->user()->isEditor, function (Builder $query) {
+                    return $query->where('user_id', request()->user()->id)
+                        ->orWhere('assigned_to', request()->user()->id);
+                })
                ->latest()
                ->paginate(),
             200
@@ -61,7 +72,21 @@ class ReportController extends Controller
 
         $report->save();
 
-        return response()->json($report->refresh(), 201);
+        if ($data['assigned_user'] && $report->assigned_at == null) {
+            $report->assigned_to = $data['assigned_user']['id'];
+            $report->assigned_at = now();
+            $report->save();
+
+            Mail::to($report->assignedUser)
+                ->send(new IncidentReportAssigned($report));
+        }
+
+        $report->load(['assignedUser:name,id', 'user:name,id']);
+
+        return response()->json([
+            'report' => $report->refresh(),
+            'assignees' => User::where('role', User::EDITOR)->get(['id', 'name']),
+        ], 201);
     }
 
     /**
@@ -72,9 +97,14 @@ class ReportController extends Controller
      */
     public function show($id): JsonResponse
     {
-        $report = IncidentReport::query()->findOrFail($id);
+        $report = IncidentReport::query()
+            ->with(['assignedUser:name,id', 'user:name,id'])
+            ->findOrFail($id);
 
-        return response()->json($report, 200);
+        return response()->json([
+            'report' => $report,
+            'assignees' => User::where('role', User::EDITOR)->get(['id', 'name']),
+        ], 200);
     }
 
     /**

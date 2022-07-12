@@ -24,22 +24,21 @@ class StoreReportRequest extends FormRequest
     public function rules()
     {
         return [
+            // 'user_id' => 'required|uuid',
             'name' => 'required|string',
-            'machine_number' => 'required|string',
             'phone' => 'required|string',
+            'location' => 'required|string',
+            'machine_number' => 'required|string',
+            'machine_type' => 'required|string',
             'incident_detail_option' => 'required|string',
             'incident_details' => 'nullable|string',
-            'incident_causes' => 'required|string',
-            'incident_status' => 'required|string',
             'additional_notes' => 'nullable|string',
-            'date' => 'required|string',
-            'location' => 'required|string',
-            'time' => 'required|string',
-            'police_notified' => 'nullable|integer',
             'recieved_by' => 'nullable|string',
-            'recieved_at' => 'nullable|string',
             'reported_by'=> 'nullable|string',
-            'solved_by'=> 'nullable|string',
+            // 'assigned_to'=> 'nullable|array',
+            'assigned_at' => 'nullable|string',
+
+            'assigned_user' => 'nullable|array',
         ];
     }
 }

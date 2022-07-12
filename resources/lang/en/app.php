@@ -9,6 +9,8 @@ return [
     'additional_notes' => 'Additional Notes',
     'admin' => 'Admin',
     'all_stats' => 'All stats',
+    'assigned_to' => 'Assigned To',
+    'assigned_at' => 'Assigned At',
     'average_reading_time' => 'Average Reading Time',
     'cancel' => 'Cancel',
     'cancel_scheduling' => 'Cancel scheduling',

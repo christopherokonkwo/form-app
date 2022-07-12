@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Mail\IncidentReported;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Facades\Mail;
 
 class IncidentReport extends Model
@@ -16,7 +17,22 @@ class IncidentReport extends Model
      *
      * @var array
      */
-    protected $guarded = [];
+    protected $fillable = [
+        'id',
+        'user_id',
+        'name',
+        'phone',
+        'location',
+        'machine_number',
+        'machine_type',
+        'incident_detail_option',
+        'incident_details',
+        'additional_notes',
+        'recieved_by',
+        'reported_by',
+        'assigned_to',
+        'assigned_at',
+    ];
 
     /**
      * The primary key for the model.
@@ -57,5 +73,15 @@ class IncidentReport extends Model
             Mail::to(['xtopherc43@gmail.com', 'maxwelnzekwe@gmail.com'])
                 ->send(new IncidentReported($incidentReport));
         });
+    }
+
+    public function assignedUser(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'assigned_to');
+    }
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
     }
 }

@@ -2,15 +2,19 @@
 
 namespace App\Models;
 
+use App\Mail\WelcomeMessage;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Mail;
 
 class User extends Authenticatable
 {
     use SoftDeletes;
     use HasFactory;
+    use Notifiable;
 
     /**
      * Role identifier for a Contributor.
@@ -97,6 +101,19 @@ class User extends Authenticatable
      * @var int
      */
     protected $perPage = 10;
+
+    /**
+     * The "booted" method of the model.
+     *
+     * @return void
+     */
+    protected static function booted()
+    {
+        static::created(function ($user) {
+            Mail::to($user)
+                ->send(new WelcomeMessage($user));
+        });
+    }
 
     /**
      * Get the posts relationship.

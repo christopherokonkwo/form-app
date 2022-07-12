@@ -55,21 +55,14 @@
                         >
                             {{ trans.your_profile }}
                         </router-link>
-                        <router-link :to="{ name: 'posts' }" class="dropdown-item">
-                            <span>{{ trans.posts }}</span>
-                        </router-link>
+
                         <router-link v-if="isAdmin" :to="{ name: 'users' }" class="dropdown-item">
                             <span>{{ trans.users }}</span>
                         </router-link>
                         <router-link :to="{ name: 'reports' }" class="dropdown-item">
                             <span>{{ trans.reports }}</span>
                         </router-link>
-                        <router-link v-if="isAdmin" :to="{ name: 'tags' }" class="dropdown-item">
-                            <span>{{ trans.tags }}</span>
-                        </router-link>
-                        <router-link v-if="isAdmin" :to="{ name: 'topics' }" class="dropdown-item">
-                            <span>{{ trans.topics }}</span>
-                        </router-link>
+
                         <router-link :to="{ name: 'stats' }" class="dropdown-item">
                             <span>{{ trans.stats }}</span>
                         </router-link>

@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Form App</title>
+    <title>{{ config('app.name') }} </title>
 
     <!-- Fonts -->
     {{-- <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet"> --}}
@@ -38,13 +38,14 @@
 
 <body class="antialiased">
     <div class="p-2"></div>
-    <div class="p-3 text-center ">
+    <div class="p-3 text-center">
         <img src="{{ asset('logo.jpeg') }}" class="img-fluid">
     </div>
     @guest
-        <div class="p-3">
-            <a href="{{ route('login') }}" target="_balnk">Login</a>
-            <a href="{{ route('register') }}" target="_balnk">Register</a>
+        <div class="container p-3">
+            <div class="row offset-md-2 col-md-2 col-4">
+                <a href="{{ route('login') }}" target="_balnk" class="btn btn-primary">Login</a>
+            </div>
         </div>
     @endguest
     <div class="container mt-3 p-3">
@@ -149,7 +150,7 @@
                 <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="additional_notes"></textarea>
             </div>
 
-            <div class=" official-use-inputs">
+            {{-- <div class="official-use-inputs">
                 <div class="offset-md-2 col-md-8 mt-3 mb-2">
                     <h4 class="text-center">FOR OFFICIAL USE ONLY</h4>
                 </div>
@@ -177,16 +178,16 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> --}}
 
-            <div class="d-grid gap-2 col-6 mx-auto">
+            <div class="d-grid col-6 mx-auto gap-2">
                 <button class="btn btn-primary green-bg" type="submit">Submit</button>
                 {{-- <button class="btn btn-primary" type="button">Cancel</button> --}}
             </div>
         </form>
 
     </div>
-    <div class="p-3 text-center ">
+    <div class="p-3 text-center">
         <img src="{{ asset('logo.jpeg') }}" class="img-fluid">
     </div>
     {{-- <div class="p-3 text-center green-bg">

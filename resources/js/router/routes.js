@@ -26,26 +26,6 @@ export default [
         name: 'stats',
         component: AllStats,
     },
-    {
-        path: '/posts',
-        name: 'posts',
-        component: PostList,
-    },
-    {
-        path: '/posts/create',
-        name: 'create-post',
-        component: EditPost,
-    },
-    {
-        path: '/posts/:id/stats',
-        name: 'post-stats',
-        component: PostStats,
-    },
-    {
-        path: '/posts/:id/edit',
-        name: 'edit-post',
-        component: EditPost,
-    },
 
     {
         path: '/reports',

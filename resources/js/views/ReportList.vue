@@ -43,7 +43,9 @@
                     <p class="mt-2 text-secondary">
                         {{ trans.reports_are_great_for }}
                     </p>
-                    <button class="btn btn-success font-weight-bold" @click="csvExport(reports)">Export to CSV</button>
+                    <button v-if="isAdmin" class="btn btn-success font-weight-bold" @click="csvExport(reports)">
+                        Export to CSV
+                    </button>
                 </div>
 
                 <div v-if="isReady" class="mt-5 card shadow-lg">
@@ -146,6 +148,7 @@ export default {
     computed: {
         ...mapGetters({
             trans: 'settings/trans',
+            isAdmin: 'settings/isAdmin',
         }),
     },
 

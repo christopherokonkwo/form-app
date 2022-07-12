@@ -30,7 +30,10 @@ class IncidentReportController extends Controller
         // dd($request);
         $data = $request->validated();
 
-        $report = new IncidentReport(['id' => Uuid::uuid4()->toString()]);
+        $report = new IncidentReport([
+            'id' => Uuid::uuid4()->toString(),
+            'user_id' => auth()->id(),
+         ]);
         $report->fill($data);
         $report->save();
 
