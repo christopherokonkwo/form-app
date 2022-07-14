@@ -19,7 +19,7 @@ Vue.use(Toasted, {
 
 Vue.mixin(request);
 
-// Vue.config.productionTip = false;
+Vue.config.productionTip = false;
 
 new Vue({
     el: '#dashboard',
