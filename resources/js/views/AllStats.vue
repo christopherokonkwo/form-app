@@ -26,93 +26,85 @@
                 </div>
 
                 <div v-if="isReady">
-                    <div class="card-deck mt-4 pt-2">
-                        <div v-if="isAdmin" class="card shadow-lg">
-                            <div
-                                class="card-header pb-0 bg-transparent d-flex justify-content-between align-middle border-0"
-                            >
-                                <p class="font-weight-bold text-muted small text-uppercase">{{ trans.reports_all }}</p>
-                                <p>
-                                    <span class="badge badge-pill badge-light p-2 font-weight-bold">
-                                        {{ trans.last_thirty_days }}
-                                    </span>
-                                </p>
-                            </div>
-                            <div class="card-body pt-0 pb-2">
-                                <p class="card-text display-4">{{ suffixedNumber(data.all_reports_last_month) }}</p>
+                    <div class="row mt-4 pt-2">
+                        <div v-if="isAdmin" class="col-md-4 mb-4">
+                            <div class="card shadow-lg">
+                                <div
+                                    class="card-header pb-0 bg-transparent d-flex justify-content-between align-middle border-0"
+                                >
+                                    <p class="font-weight-bold text-muted small text-uppercase">
+                                        {{ trans.reports_all }}
+                                    </p>
+                                </div>
+                                <div class="card-body pt-0 pb-2">
+                                    <p class="card-text display-4">{{ suffixedNumber(data.all_reports) }}</p>
+                                </div>
                             </div>
                         </div>
 
-                        <div v-if="isAdmin" class="card shadow-lg">
-                            <div
-                                class="card-header pb-0 bg-transparent d-flex justify-content-between align-middle border-0"
-                            >
-                                <p class="font-weight-bold text-muted small text-uppercase">
-                                    {{ trans.reports_pending }}
-                                </p>
-                                <p>
-                                    <span class="badge badge-pill badge-secondary p-2 font-weight-bold">
-                                        {{ trans.last_thirty_days }}
-                                    </span>
-                                </p>
-                            </div>
-                            <div class="card-body pt-0 pb-2">
-                                <p class="card-text display-4">{{ suffixedNumber(data.pending_reports_last_month) }}</p>
-                            </div>
-                        </div>
-                        <div class="card shadow-lg">
-                            <div
-                                class="card-header pb-0 bg-transparent d-flex justify-content-between align-middle border-0"
-                            >
-                                <p class="font-weight-bold text-muted small text-uppercase">
-                                    {{ trans.reports_assigned }}
-                                </p>
-                                <p>
-                                    <span class="badge badge-pill badge-info p-2 font-weight-bold">
-                                        {{ trans.last_thirty_days }}
-                                    </span>
-                                </p>
-                            </div>
-                            <div class="card-body pt-0 pb-2">
-                                <p class="card-text display-4">
-                                    {{ suffixedNumber(data.assigned_reports_last_month) }}
-                                </p>
+                        <div v-if="isAdmin" class="col-md-4 mb-4">
+                            <div class="card shadow-lg">
+                                <div
+                                    class="card-header pb-0 bg-transparent d-flex justify-content-between align-middle border-0"
+                                >
+                                    <p class="font-weight-bold text-muted small text-uppercase">
+                                        {{ trans.reports_pending }}
+                                    </p>
+                                </div>
+                                <div class="card-body pt-0 pb-2">
+                                    <p class="card-text display-4">
+                                        {{ suffixedNumber(data.pending_reports) }}
+                                    </p>
+                                </div>
                             </div>
                         </div>
-                        <div class="card shadow-lg">
-                            <div
-                                class="card-header pb-0 bg-transparent d-flex justify-content-between align-middle border-0"
-                            >
-                                <p class="font-weight-bold text-muted small text-uppercase">
-                                    {{ trans.reports_resolved }}
-                                </p>
-                                <p>
-                                    <span class="badge badge-pill badge-success p-2 font-weight-bold">
-                                        {{ trans.last_thirty_days }}
-                                    </span>
-                                </p>
-                            </div>
-                            <div class="card-body pt-0 pb-2">
-                                <p class="card-text display-4">
-                                    {{ suffixedNumber(data.resolved_reports_last_month) }}
-                                </p>
+
+                        <div class="col-md-4 mb-4">
+                            <div class="card shadow-lg">
+                                <div
+                                    class="card-header pb-0 bg-transparent d-flex justify-content-between align-middle border-0"
+                                >
+                                    <p class="font-weight-bold text-muted small text-uppercase">
+                                        {{ trans.reports_assigned }}
+                                    </p>
+                                </div>
+                                <div class="card-body pt-0 pb-2">
+                                    <p class="card-text display-4">
+                                        {{ suffixedNumber(data.assigned_reports) }}
+                                    </p>
+                                </div>
                             </div>
                         </div>
-                        <div class="card shadow-lg">
-                            <div
-                                class="card-header pb-0 bg-transparent d-flex justify-content-between align-middle border-0"
-                            >
-                                <p class="font-weight-bold text-muted small text-uppercase">
-                                    {{ trans.reports_personal }}
-                                </p>
-                                <p>
-                                    <span class="badge badge-pill badge-light p-2 font-weight-bold">
-                                        {{ trans.last_thirty_days }}
-                                    </span>
-                                </p>
+
+                        <div class="col-md-4 mb-4">
+                            <div class="card shadow-lg">
+                                <div
+                                    class="card-header pb-0 bg-transparent d-flex justify-content-between align-middle border-0"
+                                >
+                                    <p class="font-weight-bold text-muted small text-uppercase">
+                                        {{ trans.reports_resolved }}
+                                    </p>
+                                </div>
+                                <div class="card-body pt-0 pb-2">
+                                    <p class="card-text display-4">
+                                        {{ suffixedNumber(data.resolved_reports) }}
+                                    </p>
+                                </div>
                             </div>
-                            <div class="card-body pt-0 pb-2">
-                                <p class="card-text display-4">{{ suffixedNumber(data.my_reports_last_month) }}</p>
+                        </div>
+
+                        <div class="col-md-4 mb-4">
+                            <div class="card shadow-lg">
+                                <div
+                                    class="card-header pb-0 bg-transparent d-flex justify-content-between align-middle border-0"
+                                >
+                                    <p class="font-weight-bold text-muted small text-uppercase">
+                                        {{ trans.reports_personal }}
+                                    </p>
+                                </div>
+                                <div class="card-body pt-0 pb-2">
+                                    <p class="card-text display-4">{{ suffixedNumber(data.my_reports) }}</p>
+                                </div>
                             </div>
                         </div>
                         <!-- <div class="card shadow-lg">

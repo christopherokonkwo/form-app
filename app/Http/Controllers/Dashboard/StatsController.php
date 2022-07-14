@@ -16,19 +16,19 @@ class StatsController extends Controller
      */
     public function __invoke(): JsonResponse
     {
-        $all_reports_last_month = $this->incidentQuery();
-        $my_reports_last_month = $this->myReports();
-        $pending_reports_last_month = $this->incidentQuery('pending');
-        $assigned_reports_last_month = $all_reports_last_month - $pending_reports_last_month;
-        $assigned_reports_last_month = $this->incidentQuery('assigned');
-        $resolved_reports_last_month = $this->incidentQuery('done');
+        $all_reports = $this->incidentQuery();
+        $my_reports = $this->myReports();
+        $pending_reports = $this->incidentQuery('pending');
+        // $assigned_reports = $all_reports - $pending_reports;
+        $assigned_reports = $this->assignedReports();
+        $resolved_reports = $this->incidentQuery('done');
 
         $results = [
-            'pending_reports_last_month' => $pending_reports_last_month,
-            'assigned_reports_last_month' => $assigned_reports_last_month,
-            'resolved_reports_last_month' => $resolved_reports_last_month,
-            'all_reports_last_month' => $all_reports_last_month,
-            'my_reports_last_month' => $my_reports_last_month,
+            'pending_reports' => $pending_reports,
+            'assigned_reports' => $assigned_reports,
+            'resolved_reports' => $resolved_reports,
+            'all_reports' => $all_reports,
+            'my_reports' => $my_reports,
         ];
 
         return response()->json($results);
@@ -43,10 +43,6 @@ class StatsController extends Controller
             ->when($status == 'assigned', function (Builder $query) {
                 return $query->where('assigned_to', request()->user()->id);
             })
-            ->whereBetween('created_at', [
-                today()->subDays(30)->startOfDay()->toDateTimeString(),
-                today()->endOfDay()->toDateTimeString(),
-            ])
             ->when(request()->user()->isContributor, function (Builder $query) {
                 return $query->where('user_id', request()->user()->id);
             })
@@ -63,10 +59,16 @@ class StatsController extends Controller
     {
         return IncidentReport::query()
             ->where('user_id', request()->user()->id)
-            ->whereBetween('created_at', [
-                today()->subDays(30)->startOfDay()->toDateTimeString(),
-                today()->endOfDay()->toDateTimeString(),
-            ])
+            ->count();
+    }
+
+    public function assignedReports()
+    {
+        return IncidentReport::query()
+            ->where('status', 'assigned')
+            ->when(request()->user()->isEditor, function (Builder $query) {
+                return $query->where('assigned_to', request()->user()->id);
+            })
             ->count();
     }
 }
