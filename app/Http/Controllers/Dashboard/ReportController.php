@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Dashboard;
 use App\Http\Requests\Dashboard\StoreReportRequest;
 use App\Http\Requests\TagRequest;
 use App\Mail\IncidentReportAssigned;
+use App\Mail\IncidentReportResolved;
 use App\Models\IncidentReport;
 use App\Models\User;
 use Exception;
@@ -25,6 +26,7 @@ class ReportController extends Controller
     {
         return response()->json(
             IncidentReport::query()
+                ->with('assignedUser')
             //    ->select('id', 'name', 'created_at')
                 ->when(request()->user()->isContributor, function (Builder $query) {
                     return $query->where('user_id', request()->user()->id);
@@ -68,13 +70,19 @@ class ReportController extends Controller
             $report = new IncidentReport(['id' => $id]);
         }
 
+        if ($data['status'] == 'done' && $report->status != 'done') {
+            Mail::to($report->user)
+                ->send(new IncidentReportResolved($report));
+        }
+
         $report->fill($data);
 
         $report->save();
 
-        if ($data['assigned_user'] && $report->assigned_at == null) {
+        if ($data['assigned_user'] && $data['assigned_user']['id'] != $report->assigned_to) {
             $report->assigned_to = $data['assigned_user']['id'];
             $report->assigned_at = now();
+            $report->status = 'assigned';
             $report->save();
 
             Mail::to($report->assignedUser)

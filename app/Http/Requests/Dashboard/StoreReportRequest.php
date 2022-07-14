@@ -37,6 +37,7 @@ class StoreReportRequest extends FormRequest
             'reported_by'=> 'nullable|string',
             // 'assigned_to'=> 'nullable|array',
             'assigned_at' => 'nullable|string',
+            'status' => 'nullable|string',
 
             'assigned_user' => 'nullable|array',
         ];

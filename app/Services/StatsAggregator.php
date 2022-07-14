@@ -2,17 +2,17 @@
 
 namespace App\Services;
 
-use DatePeriod;
-use DateInterval;
 use App\Models\Post;
 use App\Models\User;
 use App\Models\View;
 use App\Models\Visit;
-use DateTimeInterface;
 use Carbon\CarbonInterval;
-use Illuminate\Support\Str;
+use DateInterval;
+use DatePeriod;
+use DateTimeInterface;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Date;
+use Illuminate\Support\Str;
 
 class StatsAggregator
 {

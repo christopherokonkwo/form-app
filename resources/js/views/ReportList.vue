@@ -72,6 +72,15 @@
                                             <p class="mb-0 py-1 lead font-weight-bold text-truncate">
                                                 {{ report.name }}
                                             </p>
+                                            <span v-if="pending(report)" class="badge badge-pill badge-secondary"
+                                                >Pending</span
+                                            >
+                                            <span v-if="assigned(report)" class="badge badge-pill badge-info"
+                                                >In progress</span
+                                            >
+                                            <span v-if="done(report)" class="badge badge-pill badge-success"
+                                                >Resolved</span
+                                            >
                                         </div>
                                         <div class="ml-auto d-none d-md-inline-block">
                                             <span class="mr-3"
@@ -198,6 +207,15 @@ export default {
             link.setAttribute('href', data);
             link.setAttribute('download', 'incident-reports-' + date + '.csv');
             link.click();
+        },
+        assigned(report) {
+            return report.status == 'assigned';
+        },
+        pending(report) {
+            return report.status == 'pending';
+        },
+        done(report) {
+            return report.status == 'done';
         },
     },
 };

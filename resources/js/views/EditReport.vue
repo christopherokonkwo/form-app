@@ -200,7 +200,7 @@
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <div class="col-12 col-md-8">
+                                <div class="col-12 col-md-4">
                                     <label class="font-weight-bold text-uppercase text-muted small">
                                         {{ trans.reported_by }}
                                     </label>
@@ -234,6 +234,26 @@
                                         title="Assigned To"
                                         class="form-control border-0"
                                         :placeholder="trans.assigned_to"
+                                    />
+                                </div>
+                                <div v-if="!creatingReport" class="col-12 col-md-4">
+                                    <label class="font-weight-bold text-uppercase text-muted small">
+                                        {{ trans.status }}
+                                    </label>
+                                    <multiselect
+                                        v-if="isAdmin || isEditor"
+                                        v-model="report.status"
+                                        :options="reportStatus"
+                                        style="cursor: pointer"
+                                        @input="saveReport"
+                                    />
+                                    <input
+                                        v-else
+                                        :value="report.status"
+                                        disabled
+                                        type="text"
+                                        title="Report status"
+                                        class="form-control border-0"
                                     />
                                 </div>
                             </div>
@@ -326,7 +346,15 @@ export default {
         ...mapGetters({
             trans: 'settings/trans',
             isAdmin: 'settings/isAdmin',
+            isEditor: 'settings/isEditor',
         }),
+        reportStatus() {
+            if (this.isAdmin) {
+                return ['pending', 'assigned', 'done'];
+            } else {
+                return ['assigned', 'done'];
+            }
+        },
 
         creatingReport() {
             return this.$route.name === 'create-report';

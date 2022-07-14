@@ -32,6 +32,7 @@ class IncidentReport extends Model
         'reported_by',
         'assigned_to',
         'assigned_at',
+        'status',
     ];
 
     /**
