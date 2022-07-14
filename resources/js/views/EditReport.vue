@@ -241,7 +241,7 @@
                                         {{ trans.status }}
                                     </label>
                                     <multiselect
-                                        v-if="isAdmin || isEditor"
+                                        v-if="canUpdateStatus"
                                         v-model="report.status"
                                         :options="reportStatus"
                                         style="cursor: pointer"
@@ -345,6 +345,7 @@ export default {
     computed: {
         ...mapGetters({
             trans: 'settings/trans',
+            user: 'settings/user',
             isAdmin: 'settings/isAdmin',
             isEditor: 'settings/isEditor',
         }),
@@ -354,6 +355,10 @@ export default {
             } else {
                 return ['assigned', 'done'];
             }
+        },
+
+        canUpdateStatus() {
+            return this.isAdmin || this.report.assinged_to === this.user.id;
         },
 
         creatingReport() {

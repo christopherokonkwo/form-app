@@ -1,4 +1,4 @@
-import request from "../../mixins/request";
+import request from '../../mixins/request';
 
 const initialState = {
     i18n: window.Dashboard.translations,
@@ -23,7 +23,7 @@ const actions = {
                 digest: payload,
             })
             .then(({ data }) => {
-                context.commit("UPDATE_DIGEST", data.user);
+                context.commit('UPDATE_DIGEST', data.user);
             });
     },
 
@@ -36,7 +36,7 @@ const actions = {
                 locale: payload,
             })
             .then(({ data }) => {
-                context.commit("UPDATE_LOCALE", data);
+                context.commit('UPDATE_LOCALE', data);
             });
     },
 
@@ -49,12 +49,12 @@ const actions = {
                 dark_mode: payload,
             })
             .then(({ data }) => {
-                context.commit("UPDATE_DARK_MODE", data.user);
+                context.commit('UPDATE_DARK_MODE', data.user);
             });
     },
 
     setUser(context, user) {
-        context.commit("SET_USER", user);
+        context.commit('SET_USER', user);
     },
 };
 
@@ -92,6 +92,9 @@ const getters = {
 
     isAdmin(state) {
         return state.user.role === 3;
+    },
+    user(state) {
+        return state.user;
     },
 };
 
