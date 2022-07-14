@@ -89,6 +89,7 @@ import { mapGetters, mapState } from 'vuex';
 import $ from 'jquery';
 import SearchModal from './modals/SearchModal';
 import { store } from '../store';
+import axios from 'axios';
 
 export default {
     name: 'page-header',
@@ -107,11 +108,14 @@ export default {
 
     methods: {
         logout() {
-            if (store.state.settings.path === '/') {
-                window.location.href = `/logout`;
-            } else {
-                window.location.href = `${store.state.settings.path}/logout`;
-            }
+            axios
+                .post('/logout', { _token: document.head.querySelector('meta[name="csrf-token"]').content })
+                .then((response) => {
+                    window.location = '/login';
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
         },
 
         showSearchModal() {
