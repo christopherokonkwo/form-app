@@ -12,7 +12,7 @@
                         </p>
                     </div>
 
-                    <select
+                    <!-- <select
                         v-model="scope"
                         id="scope"
                         v-if="isReady && isAdmin"
@@ -22,7 +22,7 @@
                     >
                         <option value="user">{{ trans.your_stats }}</option>
                         <option value="all">{{ trans.all_stats }}</option>
-                    </select>
+                    </select> -->
                 </div>
 
                 <div v-if="isReady">
