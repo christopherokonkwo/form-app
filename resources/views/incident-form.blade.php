@@ -49,15 +49,19 @@
         </div>
     @else
         <div class="container p-3">
-            <div class="row offset-md-2 col-md-2 col-4">
+            <div class="row offset-md-2">
+                <div class="col-md-2 col-4">
+                    <form method="POST" action="{{ route('logout') }}">
+                        @csrf
 
-                <form method="POST" action="{{ route('logout') }}">
-                    @csrf
-
-                    <button type="submit" class="btn btn-primary">
-                        {{ __('Log Out') }}
-                    </button>
-                </form>
+                        <button type="submit" class="btn btn-primary">
+                            {{ __('Log Out') }}
+                        </button>
+                    </form>
+                </div>
+                <div class="col-md-2 col-4">
+                    <a href="{{ route('dashboard') }}" target="_balnk" class="btn btn-primary">Dashboard</a>
+                </div>
             </div>
         </div>
     @endguest
