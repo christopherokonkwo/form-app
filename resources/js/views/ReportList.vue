@@ -72,6 +72,9 @@
                                             <p class="mb-0 py-1 lead font-weight-bold text-truncate">
                                                 {{ report.name }}
                                             </p>
+                                            <span v-if="reportType(report)" class="badge badge-pill badge-primary"
+                                                >My report</span
+                                            >
                                             <span v-if="pending(report)" class="badge badge-pill badge-secondary"
                                                 >Pending</span
                                             >
@@ -158,6 +161,8 @@ export default {
         ...mapGetters({
             trans: 'settings/trans',
             isAdmin: 'settings/isAdmin',
+            isEditor: 'settings/isEditor',
+            user: 'settings/user',
         }),
     },
 
@@ -216,6 +221,9 @@ export default {
         },
         done(report) {
             return report.status == 'done';
+        },
+        reportType(report) {
+            return (this.isAdmin || this.isEditor) && report.user_id === this.user.id;
         },
     },
 };

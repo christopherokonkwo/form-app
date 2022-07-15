@@ -244,6 +244,7 @@
                                         v-if="canUpdateStatus"
                                         v-model="report.status"
                                         :options="reportStatus"
+                                        :allow-empty="false"
                                         style="cursor: pointer"
                                         @input="saveReport"
                                     />
@@ -358,7 +359,7 @@ export default {
         },
 
         canUpdateStatus() {
-            return this.isAdmin || this.report.assinged_to === this.user.id;
+            return this.isAdmin || this.report.assigned_to == this.user.id;
         },
 
         creatingReport() {
