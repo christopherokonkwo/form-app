@@ -167,95 +167,97 @@
                                     :placeholder="trans.additional_notes"
                                 ></textarea>
                             </div>
+                            <div v-if="!creatingReport">
+                                <hr class="mt-5" />
+                                <h2 class="text-center mb-3">Officials Only Section</h2>
 
-                            <hr class="mt-5" />
-                            <h2 class="text-center mb-3">Officials Only Section</h2>
-
-                            <div class="form-group row">
-                                <div class="col-12 col-md-8">
-                                    <label class="font-weight-bold text-uppercase text-muted small">
-                                        {{ trans.recieved_by }}
-                                    </label>
-                                    <input
-                                        v-model="report.recieved_by"
-                                        type="text"
-                                        name="recieved_by"
-                                        title="Recieved By"
-                                        class="form-control border-0"
-                                        :placeholder="trans.recieved_by"
-                                    />
+                                <div class="form-group row">
+                                    <div class="col-12 col-md-8">
+                                        <label class="font-weight-bold text-uppercase text-muted small">
+                                            {{ trans.recieved_by }}
+                                        </label>
+                                        <input
+                                            v-model="report.recieved_by"
+                                            type="text"
+                                            name="recieved_by"
+                                            title="Recieved By"
+                                            class="form-control border-0"
+                                            :placeholder="trans.recieved_by"
+                                            :disabled="!isAdmin"
+                                        />
+                                    </div>
+                                    <div class="col-12 col-md-4">
+                                        <label class="font-weight-bold text-uppercase text-muted small">
+                                            {{ trans.assigned_at }}
+                                        </label>
+                                        <input
+                                            :value="report.assigned_user ? moment(report.assigned_at).fromNow() : ''"
+                                            :placeholder="trans.recieved_at"
+                                            type="text"
+                                            disabled
+                                            title="Assigned Date"
+                                            class="form-control border-0"
+                                        />
+                                    </div>
                                 </div>
-                                <div class="col-12 col-md-4">
-                                    <label class="font-weight-bold text-uppercase text-muted small">
-                                        {{ trans.assigned_at }}
-                                    </label>
-                                    <input
-                                        :value="report.assigned_user ? moment(report.assigned_at).fromNow() : ''"
-                                        :placeholder="trans.recieved_at"
-                                        type="text"
-                                        disabled
-                                        title="Assigned Date"
-                                        class="form-control border-0"
-                                    />
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <div class="col-12 col-md-4">
-                                    <label class="font-weight-bold text-uppercase text-muted small">
-                                        {{ trans.reported_by }}
-                                    </label>
-                                    <input
-                                        v-model="report.user.name"
-                                        type="text"
-                                        disabled
-                                        title="Reported By"
-                                        class="form-control border-0"
-                                    />
-                                </div>
-                                <div class="col-12 col-md-4">
-                                    <label class="font-weight-bold text-uppercase text-muted small">
-                                        {{ trans.assigned_to }}
-                                    </label>
-                                    <multiselect
-                                        v-if="isAdmin"
-                                        v-model="report.assigned_user"
-                                        :options="assignees"
-                                        :placeholder="trans.assigned_to"
-                                        label="name"
-                                        track-by="id"
-                                        style="cursor: pointer"
-                                        @input="saveReport"
-                                    />
-                                    <input
-                                        v-else
-                                        :value="report.assigned_user ? report.assigned_user.name : ''"
-                                        disabled
-                                        type="text"
-                                        title="Assigned To"
-                                        class="form-control border-0"
-                                        :placeholder="trans.assigned_to"
-                                    />
-                                </div>
-                                <div v-if="!creatingReport" class="col-12 col-md-4">
-                                    <label class="font-weight-bold text-uppercase text-muted small">
-                                        {{ trans.status }}
-                                    </label>
-                                    <multiselect
-                                        v-if="canUpdateStatus"
-                                        v-model="report.status"
-                                        :options="reportStatus"
-                                        :allow-empty="false"
-                                        style="cursor: pointer"
-                                        @input="saveReport"
-                                    />
-                                    <input
-                                        v-else
-                                        :value="report.status"
-                                        disabled
-                                        type="text"
-                                        title="Report status"
-                                        class="form-control border-0"
-                                    />
+                                <div class="form-group row">
+                                    <div class="col-12 col-md-4">
+                                        <label class="font-weight-bold text-uppercase text-muted small">
+                                            {{ trans.reported_by }}
+                                        </label>
+                                        <input
+                                            v-model="report.user.name"
+                                            type="text"
+                                            disabled
+                                            title="Reported By"
+                                            class="form-control border-0"
+                                        />
+                                    </div>
+                                    <div class="col-12 col-md-4">
+                                        <label class="font-weight-bold text-uppercase text-muted small">
+                                            {{ trans.assigned_to }}
+                                        </label>
+                                        <multiselect
+                                            v-if="isAdmin"
+                                            v-model="report.assigned_user"
+                                            :options="assignees"
+                                            :placeholder="trans.assigned_to"
+                                            label="name"
+                                            track-by="id"
+                                            style="cursor: pointer"
+                                            @input="saveReport"
+                                        />
+                                        <input
+                                            v-else
+                                            :value="report.assigned_user ? report.assigned_user.name : ''"
+                                            disabled
+                                            type="text"
+                                            title="Assigned To"
+                                            class="form-control border-0"
+                                            :placeholder="trans.assigned_to"
+                                        />
+                                    </div>
+                                    <div v-if="!creatingReport" class="col-12 col-md-4">
+                                        <label class="font-weight-bold text-uppercase text-muted small">
+                                            {{ trans.status }}
+                                        </label>
+                                        <multiselect
+                                            v-if="canUpdateStatus"
+                                            v-model="report.status"
+                                            :options="reportStatus"
+                                            :allow-empty="false"
+                                            style="cursor: pointer"
+                                            @input="saveReport"
+                                        />
+                                        <input
+                                            v-else
+                                            :value="report.status"
+                                            disabled
+                                            type="text"
+                                            title="Report status"
+                                            class="form-control border-0"
+                                        />
+                                    </div>
                                 </div>
                             </div>
 

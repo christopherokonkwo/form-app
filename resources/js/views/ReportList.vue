@@ -81,6 +81,9 @@
                                             <span v-if="assigned(report)" class="badge badge-pill badge-info"
                                                 >In progress</span
                                             >
+                                            <span v-if="assignedMe(report)" class="badge badge-pill badge-warning"
+                                                >Assigned</span
+                                            >
                                             <span v-if="done(report)" class="badge badge-pill badge-success"
                                                 >Resolved</span
                                             >
@@ -215,6 +218,9 @@ export default {
         },
         assigned(report) {
             return report.status == 'assigned';
+        },
+        assignedMe(report) {
+            return report.assigned_user.id == this.user.id;
         },
         pending(report) {
             return report.status == 'pending';

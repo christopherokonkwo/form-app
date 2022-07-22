@@ -48,9 +48,9 @@ class ReportController extends Controller
      */
     public function create(): JsonResponse
     {
-        return response()->json(IncidentReport::query()->make([
+        return response()->json(['report' => IncidentReport::query()->make([
             'id' => Uuid::uuid4()->toString(),
-        ]), 200);
+        ])], 200);
     }
 
     /**

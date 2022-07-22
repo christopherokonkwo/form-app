@@ -65,7 +65,8 @@ class StatsController extends Controller
     public function assignedReports()
     {
         return IncidentReport::query()
-            ->where('status', 'assigned')
+            // ->where('status', 'assigned')
+            ->whereNotNull('assigned_to')
             ->when(request()->user()->isEditor, function (Builder $query) {
                 return $query->where('assigned_to', request()->user()->id);
             })
