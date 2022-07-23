@@ -13,11 +13,10 @@ return new class extends Migration {
     public function up()
     {
         Schema::table('incident_reports', function (Blueprint $table) {
-            $table->removeColumn('machine_type');
-            $table->removeColumn('machine_number');
-            $table->removeColumn('machine_number');
-            $table->removeColumn('incident_detail_option');
-            $table->removeColumn('incident_details');
+            $table->dropColumn('machine_type');
+            $table->dropColumn('machine_number');
+            $table->dropColumn('incident_detail_option');
+            $table->dropColumn('incident_details');
         });
     }
 };
