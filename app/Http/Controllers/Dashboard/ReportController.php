@@ -26,7 +26,7 @@ class ReportController extends Controller
     {
         return response()->json(
             IncidentReport::query()
-                ->with('assignedUser')
+                ->with(['assignedUser', 'machines'])
             //    ->select('id', 'name', 'created_at')
                 ->when(request()->user()->isContributor, function (Builder $query) {
                     return $query->where('user_id', request()->user()->id);
@@ -106,7 +106,7 @@ class ReportController extends Controller
     public function show($id): JsonResponse
     {
         $report = IncidentReport::query()
-            ->with(['assignedUser:name,id', 'user:name,id'])
+            ->with(['assignedUser:name,id', 'user:name,id', 'machines', 'media'])
             ->findOrFail($id);
 
         return response()->json([

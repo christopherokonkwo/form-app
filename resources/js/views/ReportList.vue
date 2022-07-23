@@ -220,7 +220,7 @@ export default {
             return report.status == 'assigned';
         },
         assignedMe(report) {
-            return report.assigned_user.id == this.user.id;
+            return report.assigned_user ? report.assigned_user.id == this.user.id : false;
         },
         pending(report) {
             return report.status == 'pending';

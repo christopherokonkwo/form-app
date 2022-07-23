@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreIncidentReportRequest;
-use App\Http\Requests\UpdateIncidentReportRequest;
 use App\Models\IncidentReport;
 use Ramsey\Uuid\Uuid;
 
@@ -37,35 +36,23 @@ class IncidentReportController extends Controller
         $report->fill($data);
         $report->save();
 
+        $machines = [];
+
+        foreach ($data['machine_type'] as $key => $value) {
+            $machines[$key]['type'] = $value;
+            $machines[$key]['number'] = $data['machine_number'][$key];
+            $machines[$key]['details'] = $data['incident_detail_option'][$key];
+        }
+        $report->machines()->createMany($machines);
+
+        if (request()->hasFile('attachments')) {
+            // dd(request()->attachments);
+            foreach (request()->file('attachments') as $key => $attachment) {
+                logger($key);
+                $report->addMedia($attachment)->toMediaCollection('attachment');
+            }
+        }
+
         return redirect()->route('home')->with('msg', 'Report submitted successfully!');
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \App\Http\Requests\UpdateIncidentReportRequest  $request
-     * @param  \App\Models\IncidentReport  $incidentReport
-     * @return \Illuminate\Http\Response
-     */
-    public function update(UpdateIncidentReportRequest $request, IncidentReport $incidentReport)
-    {
-        $data = $request->validated();
-
-        $incidentReport->update($data);
-
-        return redirect()->route('home');
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\IncidentReport  $incidentReport
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(IncidentReport $incidentReport)
-    {
-        $incidentReport->delete();
-
-        return redirect()->route('home')->with('msg', 'report deleted!');
     }
 }

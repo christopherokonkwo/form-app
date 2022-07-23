@@ -49,124 +49,142 @@
 
                 <div v-if="isReady" class="mt-5 card shadow-lg">
                     <div class="card-body">
-                        <div class="col-12">
-                            <div class="form-group row">
-                                <label class="font-weight-bold text-uppercase text-muted small">
-                                    {{ trans.name }}
-                                </label>
-                                <input
-                                    v-model="report.name"
-                                    type="text"
-                                    name="name"
-                                    autofocus
-                                    autocomplete="off"
-                                    title="Name"
-                                    class="form-control border-0"
-                                    :placeholder="trans.name"
-                                    @keyup.enter="saveReport"
-                                />
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="form-group col-md-4">
+                                    <label class="font-weight-bold text-uppercase text-muted small">
+                                        {{ trans.name }}
+                                    </label>
+                                    <input
+                                        :value="report.name"
+                                        type="text"
+                                        title="Name"
+                                        class="form-control border-0"
+                                        disabled
+                                    />
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label class="font-weight-bold text-uppercase text-muted small">
+                                        {{ trans.phone }}
+                                    </label>
+                                    <input
+                                        :value="report.phone"
+                                        type="text"
+                                        title="Phone"
+                                        class="form-control border-0"
+                                        disabled
+                                    />
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label class="font-weight-bold text-uppercase text-muted small">
+                                        {{ trans.location }}
+                                    </label>
+                                    <input
+                                        :value="report.location"
+                                        type="text"
+                                        title="Location"
+                                        class="form-control border-0"
+                                        disabled
+                                    />
+                                </div>
                             </div>
-                            <div class="form-group row">
-                                <label class="font-weight-bold text-uppercase text-muted small">
-                                    {{ trans.machine_number }}
-                                </label>
-                                <input
-                                    v-model="report.machine_number"
-                                    type="text"
-                                    name="machine_number"
-                                    autofocus
-                                    autocomplete="off"
-                                    title="Machine Number"
-                                    class="form-control border-0"
-                                    :placeholder="trans.machine_number"
-                                    @keyup.enter="saveReport"
-                                />
+                            <div
+                                :key="`${index}-${machine.id}`"
+                                v-for="(machine, index) in report.machines"
+                                class="row"
+                            >
+                                <div class="form-group col-md-4">
+                                    <label class="font-weight-bold text-uppercase text-muted small">
+                                        {{ trans.machine_type }}
+                                    </label>
+                                    <input
+                                        v-model="machine.type"
+                                        disabled
+                                        type="text"
+                                        title="Machine Number"
+                                        class="form-control border-0"
+                                    />
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label class="font-weight-bold text-uppercase text-muted small">
+                                        {{ trans.machine_number }}
+                                    </label>
+                                    <input
+                                        v-model="machine.number"
+                                        type="text"
+                                        disabled
+                                        title="Machine Number"
+                                        class="form-control border-0"
+                                    />
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label class="font-weight-bold text-uppercase text-muted small">{{
+                                        trans.incident_details
+                                    }}</label>
+                                    <input
+                                        :value="makeTitle(machine.details)"
+                                        type="text"
+                                        title="Machine Number"
+                                        class="form-control border-0"
+                                        disabled
+                                    />
+                                    <!-- <multiselect
+                                        v-model="option"
+                                        :options="details"
+                                        :placeholder="trans.select_an_incident_detail"
+                                        label="name"
+                                        track-by="slug"
+                                        style="cursor: pointer"
+                                        @input="inputDetailOption"
+                                    /> -->
+                                </div>
                             </div>
-                            <div class="form-group row">
-                                <label class="font-weight-bold text-uppercase text-muted small">
-                                    {{ trans.machine_type }}
-                                </label>
-                                <input
-                                    v-model="report.machine_type"
-                                    type="text"
-                                    name="machine_type"
-                                    title="Machine Number"
-                                    class="form-control border-0"
-                                    :placeholder="trans.machine_type"
-                                    @keyup.enter="saveReport"
-                                />
-                            </div>
-                            <div class="form-group row">
-                                <label class="font-weight-bold text-uppercase text-muted small">
-                                    {{ trans.phone }}
-                                </label>
-                                <input
-                                    v-model="report.phone"
-                                    type="text"
-                                    name="phone"
-                                    autocomplete="off"
-                                    title="Phone"
-                                    class="form-control border-0"
-                                    :placeholder="trans.phone"
-                                    @keyup.enter="saveReport"
-                                />
-                            </div>
-                            <div class="form-group row">
-                                <div class="col-5 pl-0">
+                            <div class="row">
+                                <div class="form-group col-md-4">
                                     <label class="font-weight-bold text-uppercase text-muted small">
                                         {{ trans.date }}
                                     </label>
                                     <input
-                                        v-model="moment(report.created_at).format('MMMM DD YYYY hh:mm A')"
+                                        :value="moment(report.created_at).format('MMMM DD YYYY hh:mm A')"
                                         type="text"
-                                        disabled
                                         title="date"
                                         class="form-control border-0"
-                                        :placeholder="trans.date"
+                                        disabled
                                     />
                                 </div>
+                                <div class="form-group col-md-8">
+                                    <label class="font-weight-bold text-uppercase text-muted small">
+                                        {{ trans.notes }}
+                                    </label>
+                                    <textarea
+                                        type="text"
+                                        title="Additional Notes"
+                                        class="form-control border-0"
+                                        rows="5"
+                                        :placeholder="trans.additional_notes"
+                                        disabled
+                                        >{{ report.additional_notes }}</textarea
+                                    >
+                                </div>
                             </div>
-                            <div class="form-group row">
-                                <label class="font-weight-bold text-uppercase text-muted small">
-                                    {{ trans.location }}
-                                </label>
-                                <input
-                                    v-model="report.location"
-                                    type="text"
-                                    name="location"
-                                    title="Location"
-                                    class="form-control border-0"
-                                    :placeholder="trans.location"
-                                />
-                            </div>
-                            <div class="form-group row">
-                                <label class="font-weight-bold text-uppercase text-muted small">{{
-                                    trans.incident_details
-                                }}</label>
-                                <multiselect
-                                    v-model="option"
-                                    :options="details"
-                                    :placeholder="trans.select_an_incident_detail"
-                                    label="name"
-                                    track-by="slug"
-                                    style="cursor: pointer"
-                                    @input="inputDetailOption"
-                                />
+                            <div v-if="report.media.length > 0" class="row">
+                                <div class="col-12">
+                                    <label class="font-weight-bold text-uppercase text-muted small">
+                                        Attachments
+                                    </label>
+                                    <div class="font-weight-bold text-muted">
+                                        <a
+                                            :key="index"
+                                            v-for="(attachment, index) in report.media"
+                                            :href="attachment.original_url"
+                                            target="_blank"
+                                            class="d-block text-black-50"
+                                            >{{ attachment.name }}</a
+                                        >
+                                    </div>
+                                </div>
                             </div>
 
-                            <div class="form-group row">
-                                <label class="font-weight-bold text-uppercase text-muted small">
-                                    {{ trans.notes }}
-                                </label>
-                                <textarea
-                                    v-model="report.additional_notes"
-                                    type="text"
-                                    name="additional_notes"
-                                    title="Additional Notes"
-                                    class="form-control border-0"
-                                    :placeholder="trans.additional_notes"
-                                ></textarea>
-                            </div>
                             <div v-if="!creatingReport">
                                 <hr class="mt-5" />
                                 <h2 class="text-center mb-3">Officials Only Section</h2>
@@ -261,7 +279,7 @@
                                 </div>
                             </div>
 
-                            <div class="form-group row mt-4 mb-2">
+                            <div v-if="canUpdateStatus" class="form-group row mt-4 mb-2">
                                 <div class="col-md px-0">
                                     <a
                                         href="#"
@@ -444,7 +462,11 @@ export default {
         inputDetailOption(data) {
             this.report.incident_detail_option = data.slug;
         },
-
+        makeTitle(text) {
+            return text.replace(/-/g, ' ').replace(/\b[a-z]/g, function () {
+                return arguments[0].toUpperCase();
+            });
+        },
         async saveReport() {
             this.errors = [];
 
