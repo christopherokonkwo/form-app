@@ -10,9 +10,27 @@
                     <p class="mt-2 text-secondary">
                         {{ trans.reports_are_great_for }}
                     </p>
-                    <button v-if="isAdmin" class="btn btn-success font-weight-bold" @click="csvExport(reports)">
+                    <export-excel
+                        v-if="isAdmin"
+                        class="btn btn-success"
+                        :name="'incident-reports-' + moment(new Date()).format('DD-MM-YYYY-h-m-sa') + '.csv'"
+                        :data="reports"
+                        :fields="json_fields"
+                        type="csv"
+                        worksheet="My Worksheet"
+                    >
                         Export to CSV
-                    </button>
+                    </export-excel>
+                    <export-excel
+                        v-if="isAdmin"
+                        class="btn btn-success"
+                        :data="reports"
+                        :fields="json_fields"
+                        worksheet="My Worksheet"
+                        :name="'incident-reports-' + moment(new Date()).format('DD-MM-YYYY-h-m-sa') + '.xls'"
+                    >
+                        Export to Excel
+                    </export-excel>
                 </div>
 
                 <div v-if="isReady" class="mt-5 card shadow-lg">
@@ -124,6 +142,40 @@ export default {
             page: 1,
             reports: [],
             isReady: false,
+            json_fields: {
+                'Full Name': 'name',
+                'Phone Number': 'phone',
+                Location: 'location',
+                Status: 'status',
+                'Additional Notes': 'additional_notes',
+                'Recieved By': 'recieved_by.name',
+                'Reported By': 'user.name',
+                'Assigned To': 'assigned_user.name',
+                'Assigned Date': 'assigned_at',
+                'Reported Date': {
+                    field: 'created_at',
+                    callback: (date) => {
+                        return this.moment(date).format('DD-MM-YYYY h:ma');
+                    },
+                },
+                'Machine Details': {
+                    field: 'machines',
+                    callback: (machines) => {
+                        return machines
+                            .map(
+                                (machine) =>
+                                    `Type: ${machine.type}, Number: ${machine.number}, Detail: ${machine.details}`
+                            )
+                            .join(' | ');
+                    },
+                },
+                // 'Recieved By': {
+                //     field: 'recieved_by.name',
+                //     callback: (value) => {
+                //         return `Landline Phone - ${value}`;
+                //     },
+                // },
+            },
         };
     },
 
@@ -170,24 +222,9 @@ export default {
                     });
             }
         },
-        csvExport(arrData) {
-            let csvContent = 'data:text/csv;charset=utf-8,';
-            csvContent += [Object.keys(arrData[0]).join(';'), ...arrData.map((item) => Object.values(item).join(';'))]
-                .join('\n')
-                .replace(/(^\[)|(\]$)/gm, '');
 
-            const data = encodeURI(csvContent);
-            const date = this.moment(new Date()).format('DD-MM-YYYY-h-m-sa');
-            const link = document.createElement('a');
-            link.setAttribute('href', data);
-            link.setAttribute('download', 'incident-reports-' + date + '.csv');
-            link.click();
-        },
         assigned(report) {
             return report.status == 'assigned';
-        },
-        assignedMe(report) {
-            return report.assigned_user ? report.assigned_user.id == this.user.id : false;
         },
         pending(report) {
             return report.status == 'pending';

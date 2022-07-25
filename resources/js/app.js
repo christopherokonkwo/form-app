@@ -4,6 +4,7 @@ import Vue from 'vue';
 import moment from 'moment';
 import request from './mixins/request';
 import router from './router';
+import excel from 'vue-excel-export';
 
 require('bootstrap');
 
@@ -16,6 +17,8 @@ Vue.use(Toasted, {
     theme: 'bubble',
     duration: 2500,
 });
+
+Vue.use(excel);
 
 Vue.mixin(request);
 

@@ -26,7 +26,7 @@ class ReportController extends Controller
     {
         return response()->json(
             IncidentReport::query()
-                ->with(['assignedUser', 'machines'])
+                ->with(['assignedUser', 'machines', 'user'])
             //    ->select('id', 'name', 'created_at')
                 ->when(request()->user()->isContributor, function (Builder $query) {
                     return $query->where('user_id', request()->user()->id);
