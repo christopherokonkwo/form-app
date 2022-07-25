@@ -64,11 +64,7 @@ class ReportController extends Controller
     {
         $data = $request->validated();
 
-        $report = IncidentReport::query()->find($id);
-
-        if (! $report) {
-            $report = new IncidentReport(['id' => $id]);
-        }
+        $report = IncidentReport::query()->findOrFail($id);
 
         if ($data['status'] == 'done' && $report->status != 'done') {
             Mail::to($report->user)

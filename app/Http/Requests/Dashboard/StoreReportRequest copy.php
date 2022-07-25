@@ -24,14 +24,14 @@ class StoreReportRequest extends FormRequest
     public function rules()
     {
         return [
-            // 'name' => 'required|string',
-            // 'phone' => 'required|string',
-            // 'location' => 'required|string',
-            // 'machine_number' => 'required|string',
-            // 'machine_type' => 'required|string',
-            // 'incident_detail_option' => 'required|string',
-            // 'incident_details' => 'nullable|string',
-            // 'additional_notes' => 'nullable|string',
+            'name' => 'required|string',
+            'phone' => 'required|string',
+            'location' => 'required|string',
+            'machine_number' => 'required|string',
+            'machine_type' => 'required|string',
+            'incident_detail_option' => 'required|string',
+            'incident_details' => 'nullable|string',
+            'additional_notes' => 'nullable|string',
             'recieved_by' => 'nullable|string',
             'reported_by'=> 'nullable|string',
             // 'assigned_to'=> 'nullable|array',
