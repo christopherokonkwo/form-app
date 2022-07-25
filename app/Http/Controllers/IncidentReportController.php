@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\IncidentReportCreated;
 use App\Http\Requests\StoreIncidentReportRequest;
 use App\Models\IncidentReport;
 use Ramsey\Uuid\Uuid;
@@ -52,6 +53,8 @@ class IncidentReportController extends Controller
                 $report->addMedia($attachment)->toMediaCollection('attachment');
             }
         }
+
+        event(new IncidentReportCreated($report));
 
         return redirect()->route('home')->with('msg', 'Report submitted successfully!');
     }

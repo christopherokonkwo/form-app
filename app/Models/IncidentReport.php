@@ -2,12 +2,10 @@
 
 namespace App\Models;
 
-use App\Mail\IncidentReported;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Support\Facades\Mail;
 use Spatie\Image\Manipulations;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
@@ -64,23 +62,6 @@ class IncidentReport extends Model implements HasMedia
      * @var int
      */
     protected $perPage = 10;
-
-    /**
-     * The "booted" method of the model.
-     *
-     * @return void
-     */
-    protected static function booted()
-    {
-        static::created(function ($incidentReport) {
-            Mail::to([
-                    'xtopherc43@gmail.com',
-                    // 'maxwelnzekwe@gmail.com',
-                    'it@promatic.ng',
-                ])
-                ->send(new IncidentReported($incidentReport));
-        });
-    }
 
     public function assignedUser(): BelongsTo
     {

@@ -2,12 +2,11 @@
 
 namespace App\Mail;
 
-use App\Models\IncidentReport;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class IncidentReported extends Mailable
+class IncidentReportRecieved extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -18,10 +17,9 @@ class IncidentReported extends Mailable
      *
      * @return void
      */
-    public function __construct(IncidentReport $report)
+    public function __construct($report)
     {
         $this->report = $report;
-        $this->report->load('machines');
     }
 
     /**
@@ -31,7 +29,7 @@ class IncidentReported extends Mailable
      */
     public function build()
     {
-        return $this->markdown('mail.incident-reported')
-            ->subject("{$this->report->name} created an incident report");
+        return $this->markdown('mail/incident-report-recieved')
+            ->subject('Incident report recieved for '.$this->report->name);
     }
 }

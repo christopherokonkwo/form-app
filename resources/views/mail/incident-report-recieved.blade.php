@@ -1,7 +1,7 @@
 @component('mail::message')
-# Hello sir!
+# Hello {{ Str::before($report->user->name, ' ') }}
 
-A new report has been created with the data below.
+We recieved your report created for {{$report->name}} with the data below.
 
 <b>Name</b>: {{ $report->name }} <br>
 <b>Phone</b>: {{ $report->phone }} <br>
@@ -19,13 +19,8 @@ A new report has been created with the data below.
 
 <b>Date and Time</b>: {{ $report->created_at->format('M d, Y h:m A') }} <br>
 
-{{-- <b>Recieved By</b>: {{ $report->recieved_by }} <br>
-<b>Recieved Date</b>: {{ $report->recieved_at }} <br>
-<b>Reported By</b>: {{ $report->reported_by }} <br>
-<b>Solved By</b>: {{ $report->solved_by }} <br> --}}
-
 @component('mail::button', ['url' => url("/dashboard/reports/{$report->id}/edit")])
-    View Report in Dashboard
+    Check report status
 @endcomponent
 
 Thanks,<br>
